@@ -1,6 +1,6 @@
 ﻿
 // MFCApplication1Dlg.h: 헤더 파일
-//
+// Grid Control Right - https://www.codeproject.com/Articles/8/MFC-Grid-control-2-27
 
 #pragma once
 #include "GridCtrl.h"
