@@ -28,6 +28,7 @@ CMFCApplication1Dlg::CMFCApplication1Dlg(CWnd* pParent /*=nullptr*/)
 
 CMFCApplication1Dlg::~CMFCApplication1Dlg()
 {
+    m_ImageList.DeleteImageList();
     m_Grid.DeleteAllItems();
 }
 
@@ -122,6 +123,18 @@ void CMFCApplication1Dlg::InitGrid(void)
     m_Grid.EnableScrollBar(ESB_ENABLE_BOTH, TRUE); // 스크롤바 사용 유무
     //m_Grid.SetVirtualMode(TRUE); // Virtual 모드 설정
 
+    // 이미지 설정
+    int nImageCount = 7;
+    m_ImageList.Create(16, 16, ILC_COLOR32 | ILC_MASK, nImageCount, 0); // 이미지리스트 생성
+    m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_ICON1));
+    m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_ICON2));
+    m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_ICON3));
+    m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_ICON4));
+    m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_ICON5));
+    m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_ICON6));
+    m_ImageList.Add(AfxGetApp()->LoadIcon(IDI_ICON7));
+    m_Grid.SetImageList(&m_ImageList);
+
     m_Grid.SetRedraw(FALSE);
     // 그리드 개수 설정
     m_Grid.SetRowCount(7);
@@ -143,6 +156,10 @@ void CMFCApplication1Dlg::InitGrid(void)
         strText.Format(_T("Row %d"), nRow);
         m_Grid.SetItemText(nRow, 0, strText);
         m_Grid.SetItemFormat(nRow, 0, DT_CENTER | DT_VCENTER | DT_WORDBREAK);
+
+        // 이미지 설정
+        int nImageIndex = nRow % nImageCount;
+        m_Grid.SetItemImage(nRow, 0, nImageIndex);
     }
     // Column
     for (int nCol = nFixedColCount ; nCol < nColCount; nCol++)
@@ -249,8 +266,8 @@ void CMFCApplication1Dlg::InitGrid(void)
     m_Grid.AutoSize(); // 셀 사이즈 자동 변경
     int iHeight = m_Grid.GetRowHeight(0); // 높이
     int iWidth = m_Grid.GetColumnWidth(0); // 너비
-    m_Grid.SetRowHeight(0, iHeight * 3); // Fixed Row 높이 변경
-    m_Grid.SetColumnWidth(0, iWidth * 3); // Fixed Column 너비 변경
+    //m_Grid.SetRowHeight(0, iHeight * 3); // Fixed Row 높이 변경
+    //m_Grid.SetColumnWidth(0, iWidth * 3); // Fixed Column 너비 변경
     m_Grid.SetRedraw(TRUE);
 }
 

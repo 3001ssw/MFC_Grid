@@ -131,5 +131,26 @@
     <Image Include="res\MFCApplication1.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="res\ICON1.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\ICON2.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\ICON3.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\ICON4.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\ICON5.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\ICON6.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="res\ICON7.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

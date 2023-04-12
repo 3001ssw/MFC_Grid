@@ -34,6 +34,7 @@ protected:
 
 protected:
 	CGridCtrl m_Grid;
+	CImageList m_ImageList;
 
 	CEdit m_edX;
 	CEdit m_edY;

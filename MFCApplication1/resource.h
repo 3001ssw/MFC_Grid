@@ -4,6 +4,13 @@
 //
 #define IDD_MFCAPPLICATION1_DIALOG      102
 #define IDR_MAINFRAME                   128
+#define IDI_ICON1                       130
+#define IDI_ICON2                       131
+#define IDI_ICON3                       132
+#define IDI_ICON4                       133
+#define IDI_ICON5                       134
+#define IDI_ICON6                       135
+#define IDI_ICON7                       136
 #define IDC_CUSTOM1                     1003
 #define IDC_EDIT_X                      1004
 #define IDC_BUTTON_GET                  1005
@@ -20,7 +27,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        130
+#define _APS_NEXT_RESOURCE_VALUE        137
 #define _APS_NEXT_COMMAND_VALUE         32771
 #define _APS_NEXT_CONTROL_VALUE         1008
 #define _APS_NEXT_SYMED_VALUE           101

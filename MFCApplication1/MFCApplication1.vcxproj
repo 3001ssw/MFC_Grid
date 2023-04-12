@@ -231,6 +231,13 @@
     <None Include="res\MFCApplication1.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\ICON1.ico" />
+    <Image Include="res\ICON2.ico" />
+    <Image Include="res\ICON3.ico" />
+    <Image Include="res\ICON4.ico" />
+    <Image Include="res\ICON5.ico" />
+    <Image Include="res\ICON6.ico" />
+    <Image Include="res\ICON7.ico" />
     <Image Include="res\MFCApplication1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
