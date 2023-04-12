@@ -26,6 +26,11 @@ CMFCApplication1Dlg::CMFCApplication1Dlg(CWnd* pParent /*=nullptr*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
+CMFCApplication1Dlg::~CMFCApplication1Dlg()
+{
+    m_Grid.DeleteAllItems();
+}
+
 void CMFCApplication1Dlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
@@ -401,58 +406,72 @@ BOOL CMFCApplication1Dlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResul
     int nIdFrom = (int)wParam;
     NM_GRIDVIEW *nmgv = (NM_GRIDVIEW*)lParam;
 
+    if (nmgv->hdr.idFrom != m_Grid.GetDlgCtrlID())
+        return CDialogEx::OnNotify(wParam, lParam, pResult);
+
+    // 제공하는 알림 코드
+    if (nmgv->hdr.code == GVN_BEGINDRAG && (nmgv->iRow != -1 && nmgv->iColumn != -1))
+        TRACE(_T("GVN_BEGINDRAG\n"));
+    if (nmgv->hdr.code == GVN_BEGINLABELEDIT && (nmgv->iRow != -1 && nmgv->iColumn != -1))
+        TRACE(_T("GVN_BEGINLABELEDIT\n"));
+    if (nmgv->hdr.code == GVN_BEGINRDRAG     && (nmgv->iRow != -1 && nmgv->iColumn != -1))
+        TRACE(_T("GVN_BEGINRDRAG\n"));
+    if (nmgv->hdr.code == GVN_COLUMNCLICK    && (nmgv->iRow != -1 && nmgv->iColumn != -1))
+        TRACE(_T("GVN_COLUMNCLICK\n"));
+    if (nmgv->hdr.code == GVN_DELETEITEM     && (nmgv->iRow != -1 && nmgv->iColumn != -1))
+        TRACE(_T("GVN_DELETEITEM\n"));
+    if (nmgv->hdr.code == GVN_ENDLABELEDIT && (nmgv->iRow != -1 && nmgv->iColumn != -1))
+        TRACE(_T("GVN_ENDLABELEDIT\n"));
+    if (nmgv->hdr.code == GVN_SELCHANGING    && (nmgv->iRow != -1 && nmgv->iColumn != -1))
+        TRACE(_T("GVN_SELCHANGING\n"));
+    if (nmgv->hdr.code == GVN_SELCHANGED     && (nmgv->iRow != -1 && nmgv->iColumn != -1))
+        TRACE(_T("GVN_SELCHANGED\n"));
+    if (nmgv->hdr.code == GVN_GETDISPINFO    && (nmgv->iRow != -1 && nmgv->iColumn != -1))
+        TRACE(_T("GVN_GETDISPINFO\n"));
+    if (nmgv->hdr.code == GVN_ODCACHEHINT    && (nmgv->iRow != -1 && nmgv->iColumn != -1))
+        TRACE(_T("GVN_ODCACHEHINT\n"));
+
+    // 예제
     if (nmgv->hdr.code == NM_CLICK && (nmgv->iRow != -1 && nmgv->iColumn != -1))
     {
-        if (nmgv->hdr.idFrom == m_Grid.GetDlgCtrlID())
+        // 클릭
+        CString strText = m_Grid.GetItemText(nmgv->iRow, nmgv->iColumn);
+        CGridCellBase* pCell = m_Grid.GetCell(nmgv->iRow, nmgv->iColumn);
+        TRACE(_T("====================OnClick (%d, %d, %s)\n"), nmgv->iRow, nmgv->iColumn, strText);
+        if (pCell->IsKindOf(RUNTIME_CLASS(CGridCellCheck)) == TRUE)
         {
-            CString strText = m_Grid.GetItemText(nmgv->iRow, nmgv->iColumn);
-            CGridCellBase* pCell = m_Grid.GetCell(nmgv->iRow, nmgv->iColumn);
-            TRACE(_T("====================OnClick (%d, %d, %s)\n"), nmgv->iRow, nmgv->iColumn, strText);
-            if (pCell->IsKindOf(RUNTIME_CLASS(CGridCellCheck)) == TRUE)
-            {
-                BOOL bCheck = ((CGridCellCheck*)pCell)->GetCheck();
-                TRACE(_T("=========CGridCellCheck\n"));
-                TRACE(_T("strText: %s\n"), strText);
-                TRACE(_T("bCheck: %d\n"), bCheck);
-            }
-            else if (pCell->IsKindOf(RUNTIME_CLASS(CGridCellCombo)) == TRUE)
-            {
-                TRACE(_T("=========CGridCellCombo\n"));
-                TRACE(_T("strText: %s\n"), strText);
-            }
-            CString strX(_T("")), strY;(_T(""));
-            strX.Format(_T("%d"), nmgv->iRow);
-            strY.Format(_T("%d"), nmgv->iColumn);
-            m_edX.SetWindowText(strX);
-            m_edY.SetWindowText(strY);
-            m_edText.SetWindowText(strText);
+            BOOL bCheck = ((CGridCellCheck*)pCell)->GetCheck();
+            //TRACE(_T("=========CGridCellCheck strText(%s), Check(%d)\n"), strText, bCheck);
         }
+        else if (pCell->IsKindOf(RUNTIME_CLASS(CGridCellCombo)) == TRUE)
+        {
+            //TRACE(_T("=========CGridCellCombo strText(%s)\n"), strText);
+        }
+        CString strX(_T("")), strY;(_T(""));
+        strX.Format(_T("%d"), nmgv->iRow);
+        strY.Format(_T("%d"), nmgv->iColumn);
+        m_edX.SetWindowText(strX);
+        m_edY.SetWindowText(strY);
+        m_edText.SetWindowText(strText);
     }
     else if (nmgv->hdr.code == GVN_ENDLABELEDIT && (nmgv->iRow != -1 && nmgv->iColumn != -1))
     {
-        if (nmgv->hdr.idFrom == m_Grid.GetDlgCtrlID())
+        // 수정 완료 시
+        CString strText = m_Grid.GetItemText(nmgv->iRow, nmgv->iColumn);
+        CGridCellBase* pCell = m_Grid.GetCell(nmgv->iRow, nmgv->iColumn);
+        TRACE(_T("====================GVN_ENDLABELEDIT (%d, %d, %s)\n"), nmgv->iRow, nmgv->iColumn, strText);
+        if (pCell->IsKindOf(RUNTIME_CLASS(CGridCellCheck)) == TRUE)
         {
-            CString strText = m_Grid.GetItemText(nmgv->iRow, nmgv->iColumn);
-            CGridCellBase* pCell = m_Grid.GetCell(nmgv->iRow, nmgv->iColumn);
-            TRACE(_T("====================GVN_ENDLABELEDIT (%d, %d, %s)\n"), nmgv->iRow, nmgv->iColumn, strText);
-            if (pCell->IsKindOf(RUNTIME_CLASS(CGridCellCheck)) == TRUE)
-            {
-                BOOL bCheck = ((CGridCellCheck*)pCell)->GetCheck();
-                TRACE(_T("=========CGridCellCheck\n"));
-                TRACE(_T("strText: %s\n"), strText);
-                TRACE(_T("bCheck: %d\n"), bCheck);
-            }
-            else if (pCell->IsKindOf(RUNTIME_CLASS(CGridCellCombo)) == TRUE)
-            {
-                TRACE(_T("=========CGridCellCombo\n"));
-                TRACE(_T("strText: %s\n"), strText);
-            }
+            BOOL bCheck = ((CGridCellCheck*)pCell)->GetCheck();
+            //TRACE(_T("=========CGridCellCheck strText(%s), Check(%d)\n"), strText, bCheck);
+        }
+        else if (pCell->IsKindOf(RUNTIME_CLASS(CGridCellCombo)) == TRUE)
+        {
+            //TRACE(_T("=========CGridCellCombo strText(%s)\n"), strText);
         }
     }
-
-
-
-    //TRACE(_T("OnNotify(0x%X)\n"), nmgv->hdr.code);
+ 
+    // 그외 알람
     //if (nmgv->hdr.code == NM_OUTOFMEMORY)
     //    TRACE(_T("NM_OUTOFMEMORY\n"));
     //else if (nmgv->hdr.code == NM_CLICK)
